@@ -21,8 +21,11 @@ class Brizy_Content_PlaceholderProvider extends Brizy_Content_Providers_Abstract
 	 * @param Brizy_Content_Context $context
 	 */
 	public function __construct( $context = null ) {
+		//parent::__construct( $context );
+
 		$this->providers[] = new Brizy_Content_Providers_FreeProvider(  );
 		$this->providers   = apply_filters( 'brizy_providers', $this->providers, null );
+		//$context->setProvider( $this );
 	}
 
 	/**
@@ -67,12 +70,13 @@ class Brizy_Content_PlaceholderProvider extends Brizy_Content_Providers_Abstract
 	 * @return array
 	 */
 	public function getAllPlaceholders() {
-		$out = array();
+
+
 
 		if ( self::$cache_all_placeholders ) {
 			return self::$cache_all_placeholders;
 		}
-
+		$out = [];
 		foreach ( $this->providers as $provider ) {
 			$out = array_merge( $out, $provider->getAllPlaceholders() );
 		}

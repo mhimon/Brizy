@@ -1,7 +1,6 @@
 <?php
 
 
-
 /**
  * Class BrizyPro_Content_Placeholder
  */
@@ -42,12 +41,20 @@ class Brizy_Content_ContentPlaceholder {
 	 */
 	public function __construct( $name, $placeholder, $attributes = null, $content = null ) {
 
-		$this->setUid( md5( microtime() . rand( 0, PHP_INT_MAX ).$placeholder ) );
+		$this->setUid( md5( microtime() . rand( 0, PHP_INT_MAX ) . $placeholder ) );
 		$this->setPlaceholder( $placeholder );
 		$this->setName( $name );
 		$this->setAttributes( $attributes );
 		$this->setContent( $content );
 	}
+
+	/**
+	 * @return string
+	 */
+	public function getId() {
+		return $this->getAttr( 'id' );
+	}
+
 
 	/**
 	 * @return string
@@ -119,6 +126,23 @@ class Brizy_Content_ContentPlaceholder {
 		$this->attributes = $attributes;
 
 		return $this;
+	}
+
+	/**
+	 * @param $name
+	 *
+	 * @return null
+	 */
+	public function getAttr( $name, $thowIfNotFound = false ) {
+		if ( isset( $this->attributes[ $name ] ) ) {
+			return $this->attributes[ $name ];
+		}
+
+		if($thowIfNotFound) {
+			throw new Exception("The is not attribute '{$name}' set.");
+		}
+
+		return null;
 	}
 
 	/**

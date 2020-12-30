@@ -49,9 +49,6 @@ class Brizy_Admin_Funnels_Api extends Brizy_Admin_AbstractApi
     {
         $this->verifyNonce(self::nonce);
 
-        if ( ! $this->param('type')) {
-            $this->error('400', 'Invalid type');
-        }
         if ( ! $this->param('parentId')) {
             $this->error(400, 'Invalid parentId');
         }

@@ -51,10 +51,11 @@ class Brizy_Admin_Funnels_Manager extends Brizy_Admin_Entity_AbstractManager
      */
     public function getEntities($args)
     {
-        $posts =  $this->getEntitiesByType($this->type, $args);
+        return $this->getEntitiesByType($this->type, $args);
     }
 
-    public static function sortByPosition($posts) {
+    public static function sortByPosition($posts)
+    {
         usort(
             $posts,
             function ($a, $b) {
@@ -94,6 +95,97 @@ class Brizy_Admin_Funnels_Manager extends Brizy_Admin_Entity_AbstractManager
 
         return $entities;
     }
+
+    public function getNextFunnelPost($currentPost)
+    {
+
+        global $wpdb;
+
+        $parentId   = $currentPost->getWpPostParentId();
+        $funnelMeta = $currentPost->getFunnelMeta();
+        $position   = 0;
+        if (isset($funnelMeta->position)) {
+            $position = $funnelMeta->position;
+        }
+
+        $rows = $wpdb->get_results(
+            $wpdb->prepare(
+                "SELECT ID,post_type FROM $wpdb->posts 
+                       WHERE post_parent=%d and 
+                          post_status='publish' and 
+                          (post_type = %s OR post_type=%s)",
+                [$parentId, Brizy_Admin_Funnels_Main::CP_FUNNEL_PAGE, Brizy_Admin_Funnels_Main::CP_FUNNEL_POPUP]
+            ),
+            ARRAY_A
+        );
+
+        $passedTheCurrentPost = false;
+        foreach ($rows as $p) {
+            /**
+             * @var Brizy_Editor_Entity $funnelPost ;
+             */
+
+            $pos = get_metadata('post', $p['ID'], Brizy_Editor_FunnelPage::BRIZY_FUNNEL_META, true);
+
+            if (isset($pos->position) &&  $pos->position == $position) {
+                $passedTheCurrentPost = true;
+                continue;
+            }
+
+            if ($passedTheCurrentPost) {
+                return Brizy_Editor_Entity::get($p['ID']);
+            }
+        }
+
+        return null;
+    }
+
+    public function getPreviousFunnelPost($currentPost)
+    {
+
+        global $wpdb;
+
+        $parentId = $currentPost->getWpPostParentId();
+        $funnelMeta = $currentPost->getFunnelMeta();
+        $position   = 0;
+        if (isset($funnelMeta->position)) {
+            $position = $funnelMeta->position;
+        }
+
+        $rows = $wpdb->get_results(
+            $wpdb->prepare(
+                "SELECT ID FROM $wpdb->posts 
+                    WHERE post_parent=%d and 
+                          post_status='publish' and 
+                          (post_type == %s OR post_type=%s)",
+                [$parentId, Brizy_Admin_Funnels_Main::CP_FUNNEL_PAGE, Brizy_Admin_Funnels_Main::CP_FUNNEL_POPUP]
+            ),
+            ARRAY_A
+        );
+
+        $prevPost             = null;
+        foreach ($rows as $p) {
+            /**
+             * @var Brizy_Editor_Entity $funnelPost ;
+             */
+
+            $pos = get_metadata('post', $p['ID'], Brizy_Editor_FunnelPage::BRIZY_FUNNEL_META, true);
+
+            if ($pos->position == $position) {
+
+                if ($prevPost) {
+                    return Brizy_Editor_Entity::get($prevPost['ID']);
+                } else {
+                    return null;
+                }
+            }
+
+            $prevPost = $p;
+        }
+
+        return null;
+    }
+
 
     /**
      * @param $uid

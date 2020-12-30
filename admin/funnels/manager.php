@@ -74,7 +74,7 @@ class Brizy_Admin_Funnels_Manager extends Brizy_Admin_Entity_AbstractManager
         return $posts;
     }
 
-    public function getEntitiesByParent($parent, $args)
+    public function getEntitiesByParent($parent, $args=[])
     {
         $filterArgs = array(
             'post_parent'    => (int)$parent,
@@ -157,7 +157,7 @@ class Brizy_Admin_Funnels_Manager extends Brizy_Admin_Entity_AbstractManager
                 "SELECT ID FROM $wpdb->posts 
                     WHERE post_parent=%d and 
                           post_status='publish' and 
-                          (post_type == %s OR post_type=%s)",
+                          (post_type = %s OR post_type=%s)",
                 [$parentId, Brizy_Admin_Funnels_Main::CP_FUNNEL_PAGE, Brizy_Admin_Funnels_Main::CP_FUNNEL_POPUP]
             ),
             ARRAY_A
@@ -171,7 +171,7 @@ class Brizy_Admin_Funnels_Manager extends Brizy_Admin_Entity_AbstractManager
 
             $pos = get_metadata('post', $p['ID'], Brizy_Editor_FunnelPage::BRIZY_FUNNEL_META, true);
 
-            if ($pos->position == $position) {
+            if (isset($pos->position) && $pos->position == $position) {
 
                 if ($prevPost) {
                     return Brizy_Editor_Entity::get($prevPost['ID']);

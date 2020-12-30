@@ -61,7 +61,7 @@ class Brizy_Admin_Funnels_Api extends Brizy_Admin_AbstractApi
 
             $fields = $this->param('fields') ? $this->param('fields') : [];
 
-            $posts = $manager->getEntities(
+            $posts = $manager->getEntitiesByParent(
                 [
                     'post_parent' => $this->param('parentId'),
                     'post_status' => get_post_stati(),

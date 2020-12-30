@@ -57,7 +57,7 @@ class Brizy_Admin_Funnels_Api extends Brizy_Admin_AbstractApi
         }
 
         try {
-            $manager = new Brizy_Admin_Funnels_Manager($this->param('type'));
+            $manager = new Brizy_Admin_Funnels_Manager(Brizy_Admin_Funnels_Main::CP_FUNNEL_POPUP);
 
             $fields = $this->param('fields') ? $this->param('fields') : [];
 

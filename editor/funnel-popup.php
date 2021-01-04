@@ -87,9 +87,9 @@ class Brizy_Editor_FunnelPopup extends Brizy_Editor_Popup
         return $data;
     }
 
-    public function createResponse( $fields = array() ) {
-
-        $p_id      = (int) $this->getWpPostId();
+    public function createResponse($fields = array())
+    {
+        $p_id      = (int)$this->getWpPostId();
         $the_title = get_the_title($p_id);
 
         $global = array(
@@ -103,6 +103,8 @@ class Brizy_Editor_FunnelPopup extends Brizy_Editor_Popup
             'status'      => get_post_status($p_id),
             'url'         => get_the_permalink($p_id),
             'dataVersion' => $this->getCurrentDataVersion(),
+            'funnelMeta'  => $this->getFunnelMeta(),
+            'postType'    => $this->getWpPost()->post_type,
         );
 
         return $global;

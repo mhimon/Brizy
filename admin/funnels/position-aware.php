@@ -28,7 +28,7 @@ trait Brizy_Admin_Funnels_PositionAware
     protected function loadInstanceData() {
         parent::loadInstanceData();
 
-        $this->funnelMeta  = get_metadata( 'post', $this->getWpPostId(), self::BRIZY_FUNNEL_META, true );
+        $this->funnelMeta  = get_metadata( 'post', $this->getWpPostId(), Brizy_Editor_FunnelPage::BRIZY_FUNNEL_META, true );
     }
 
     /**
@@ -53,6 +53,6 @@ trait Brizy_Admin_Funnels_PositionAware
     {
         parent::saveStorage();
 
-        update_metadata( 'post', $this->getWpPostId(), self::BRIZY_FUNNEL_META, $this->funnelMeta );
+        update_metadata( 'post', $this->getWpPostId(), Brizy_Editor_FunnelPage::BRIZY_FUNNEL_META, $this->funnelMeta );
     }
 }

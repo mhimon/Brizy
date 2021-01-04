@@ -58,17 +58,17 @@ class Brizy_Editor_FunnelPopup extends Brizy_Editor_Popup
 
     public function setCloudUpdateRequired($flag)
     {
-        return throw new Exception('Cloud Update is not supported for Funnel Popups');
+        throw new Exception('Cloud Update is not supported for Funnel Popups');
     }
 
     public function setCloudId($flag)
     {
-        return throw new Exception('Cloud Update is not supported for Funnel Popups');
+        throw new Exception('Cloud Update is not supported for Funnel Popups');
     }
 
     public function setContainer($flag)
     {
-        return throw new Exception('Cloud Update is not supported for Funnel Popups');
+        throw new Exception('Cloud Update is not supported for Funnel Popups');
     }
 
     public function jsonSerialize()

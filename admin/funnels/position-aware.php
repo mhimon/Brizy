@@ -37,7 +37,7 @@ trait Brizy_Admin_Funnels_PositionAware
     public function jsonSerialize() {
         $data =  parent::jsonSerialize();
         $data['funnelMeta'] = $this->getFunnelMeta();
-        $data['post_type'] = $this->getWpPost()->post_type;
+        $data['postType'] = $this->getWpPost()->post_type;
         return $data;
     }
 
@@ -45,7 +45,7 @@ trait Brizy_Admin_Funnels_PositionAware
     public function createResponse( $fields = array() ) {
         $data  = parent::createResponse($fields);
         $data['funnelMeta'] = $this->getFunnelMeta();
-        $data['post_type'] = $this->getWpPost()->post_type;
+        $data['postType'] = $this->getWpPost()->post_type;
         return $data;
     }
 

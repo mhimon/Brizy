@@ -182,7 +182,7 @@ class Brizy_Editor_Popup extends Brizy_Editor_Post {
 	/**
 	 * @param $data
 	 */
-	public function loadInstanceData() {
+    protected function loadInstanceData() {
 		parent::loadInstanceData();
 
 		$storage = $this->getStorage();

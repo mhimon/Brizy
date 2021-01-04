@@ -99,11 +99,11 @@ class Brizy_Admin_Funnels_Api extends Brizy_Admin_AbstractApi
             $this->error(400, 'Invalid title');
         }
 
-        if ( ! $this->param('meta')) {
+        if ( ! $this->param('funnelMeta')) {
             $this->error(400, 'Invalid funnelMeta');
         }
 
-        $meta = json_decode(stripslashes($this->param('meta')));
+        $meta = json_decode(stripslashes($this->param('funnelMeta')));
 
         if ( ! isset($meta->position)) {
             $this->error(400, 'Invalid meta content');
@@ -155,11 +155,11 @@ class Brizy_Admin_Funnels_Api extends Brizy_Admin_AbstractApi
             $this->error(400, 'Invalid title');
         }
 
-        if ( ! $this->param('meta')) {
+        if ( ! $this->param('funnelMeta')) {
             $this->error(400, 'Invalid funnelMeta');
         }
 
-        $meta = json_decode(stripslashes($this->param('meta')));
+        $meta = json_decode(stripslashes($this->param('funnelMeta')));
 
         if ( ! isset($meta->position)) {
             $this->error(400, 'Invalid meta content');

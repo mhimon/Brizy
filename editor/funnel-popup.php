@@ -86,4 +86,25 @@ class Brizy_Editor_FunnelPopup extends Brizy_Editor_Popup
 
         return $data;
     }
+
+    public function createResponse( $fields = array() ) {
+
+        $p_id      = (int) $this->getWpPostId();
+        $the_title = get_the_title($p_id);
+
+        $global = array(
+            'title'       => $the_title,
+            'slug'        => sanitize_title($the_title),
+            'data'        => $this->get_editor_data(),
+            'id'          => $p_id,
+            'uid'         => $this->getUid(),
+            'is_index'    => false,
+            'template'    => get_page_template_slug($p_id),
+            'status'      => get_post_status($p_id),
+            'url'         => get_the_permalink($p_id),
+            'dataVersion' => $this->getCurrentDataVersion(),
+        );
+
+        return $global;
+    }
 }

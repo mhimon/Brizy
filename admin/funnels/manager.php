@@ -74,7 +74,7 @@ class Brizy_Admin_Funnels_Manager extends Brizy_Admin_Entity_AbstractManager
         return $posts;
     }
 
-    public function getEntitiesByParent($parent, $args=[])
+    public function getEntitiesByParent($parent, $args = [])
     {
         $filterArgs = array(
             'post_parent'    => (int)$parent,
@@ -127,7 +127,7 @@ class Brizy_Admin_Funnels_Manager extends Brizy_Admin_Entity_AbstractManager
 
             $pos = get_metadata('post', $p['ID'], Brizy_Editor_FunnelPage::BRIZY_FUNNEL_META, true);
 
-            if (isset($pos->position) &&  $pos->position == $position) {
+            if (isset($pos->position) && $pos->position == $position) {
                 $passedTheCurrentPost = true;
                 continue;
             }
@@ -145,7 +145,7 @@ class Brizy_Admin_Funnels_Manager extends Brizy_Admin_Entity_AbstractManager
 
         global $wpdb;
 
-        $parentId = $currentPost->getWpPostParentId();
+        $parentId   = $currentPost->getWpPostParentId();
         $funnelMeta = $currentPost->getFunnelMeta();
         $position   = 0;
         if (isset($funnelMeta->position)) {
@@ -163,7 +163,7 @@ class Brizy_Admin_Funnels_Manager extends Brizy_Admin_Entity_AbstractManager
             ARRAY_A
         );
 
-        $prevPost             = null;
+        $prevPost = null;
         foreach ($rows as $p) {
             /**
              * @var Brizy_Editor_Entity $funnelPost ;
@@ -207,7 +207,13 @@ class Brizy_Admin_Funnels_Manager extends Brizy_Admin_Entity_AbstractManager
      */
     public function createEntity($uid, $status = 'publish', $properties = null)
     {
-        return $this->createEntityByType($uid, $this->type, $status, $properties);
+        /**
+         * @var  Brizy_Editor_Entity $post ;
+         */
+        $post = $this->createEntityByType($uid, $this->type, $status, $properties);
+        update_post_meta($post->getWpPostId(), '_wp_page_template', Brizy_Config::BRIZY_BLANK_TEMPLATE_FILE_NAME);
+
+        return $post;
     }
 
 

@@ -26,7 +26,7 @@ abstract class Brizy_Admin_Entity_AbstractManager implements Brizy_Admin_Entity_
         $entities = get_posts(
             array(
                 'post_type'   => $type,
-                'post_status' => 'any',
+                'post_status' => get_post_stati(),
                 'meta_key'    => 'brizy_post_uid',
                 'meta_value'  => $uid,
                 'numberposts' => -1,

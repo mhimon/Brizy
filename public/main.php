@@ -498,7 +498,6 @@ class Brizy_Public_Main
      */
     public function insert_page_content($content)
     {
-
         global $post;
 
         if(doing_filter('brizy_dc_excerpt')) {

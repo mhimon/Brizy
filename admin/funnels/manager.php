@@ -102,11 +102,17 @@ class Brizy_Admin_Funnels_Manager extends Brizy_Admin_Entity_AbstractManager
         global $wpdb;
 
         $parentId   = $currentPost->getWpPostParentId();
-        $funnelMeta = $currentPost->getFunnelMeta();
+
         $position   = 0;
-        if (isset($funnelMeta->position)) {
-            $position = $funnelMeta->position;
+
+        if($currentPost instanceof Brizy_Editor_FunnelPopup || $currentPost instanceof Brizy_Editor_FunnelPage)
+        {
+            $funnelMeta = $currentPost->getFunnelMeta();
+            if (isset($funnelMeta->position)) {
+                $position = $funnelMeta->position;
+            }
         }
+
 
         $rows = $wpdb->get_results(
             $wpdb->prepare(
@@ -146,10 +152,14 @@ class Brizy_Admin_Funnels_Manager extends Brizy_Admin_Entity_AbstractManager
         global $wpdb;
 
         $parentId   = $currentPost->getWpPostParentId();
-        $funnelMeta = $currentPost->getFunnelMeta();
         $position   = 0;
-        if (isset($funnelMeta->position)) {
-            $position = $funnelMeta->position;
+
+        if($currentPost instanceof Brizy_Editor_FunnelPopup || $currentPost instanceof Brizy_Editor_FunnelPage)
+        {
+            $funnelMeta = $currentPost->getFunnelMeta();
+            if (isset($funnelMeta->position)) {
+                $position = $funnelMeta->position;
+            }
         }
 
         $rows = $wpdb->get_results(

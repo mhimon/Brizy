@@ -574,6 +574,8 @@ class Brizy_Public_Main
 
     private function preparePost()
     {
+    	global $post;
+
         $is_preview    = is_preview() || isset($_GET['preview']);
         $needs_compile = ! $this->post->isCompiledWithCurrentVersion() || $this->post->get_needs_compile();
 
@@ -600,6 +602,9 @@ class Brizy_Public_Main
                 $this->post->saveStorage();
                 $this->post->savePost();
             }
+
+            // the global post must be updates otherwise the preview will not work
+	        $post->post_content = $this->post->getWpPost()->post_content;
 
         } catch (Exception $e) {
             Brizy_Logger::instance()->exception($e);

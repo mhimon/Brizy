@@ -38,14 +38,17 @@ trait Brizy_Admin_Funnels_PositionAware
         $data =  parent::jsonSerialize();
         $data['funnelMeta'] = $this->getFunnelMeta();
         $data['postType'] = $this->getWpPost()->post_type;
+	    $data['editUrl'] = $this->edit_url();
         return $data;
     }
 
 
     public function createResponse( $fields = array() ) {
+
         $data  = parent::createResponse($fields);
         $data['funnelMeta'] = $this->getFunnelMeta();
         $data['postType'] = $this->getWpPost()->post_type;
+        $data['editUrl'] = $this->edit_url();
         return $data;
     }
 

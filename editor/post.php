@@ -838,7 +838,7 @@ class Brizy_Editor_Post extends Brizy_Editor_Entity
             }
 
             $result[] = (object)array(
-                'ID'              => $post->ID,
+                'ID'              => (int)$post->ID,
                 'uid'             => self::create_uid($post->ID),
                 'post_type'       => $post->post_type,
                 'post_type_label' => $wp_post_types[$post->post_type]->label,

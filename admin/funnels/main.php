@@ -161,6 +161,7 @@ class Brizy_Admin_Funnels_Main {
 		}
 
 		try {
+
 			$posts = get_posts(
 				array(
 					'numberposts' => 1,

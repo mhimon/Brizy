@@ -186,6 +186,10 @@ class Brizy_Admin_Funnels_Api extends Brizy_Admin_AbstractApi {
 
 			do_action( 'brizy_funnel_subpost_updated', $post );
 
+			if ( $post->getWpPost()->post_parent != 0 ) {
+				$this->markAllFunnelsToNeedCompiler( $post->getWpPost()->post_parent );
+			}
+
 			$this->success( $post->createResponse() );
 
 		} catch ( Exception $exception ) {

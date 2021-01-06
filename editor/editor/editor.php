@@ -156,6 +156,7 @@ class Brizy_Editor_Editor_Editor
             'wp'              => array(
                 'pluginPrefix'     => Brizy_Editor::prefix(),
                 'permalink'        => get_permalink($wp_post_id),
+                'uid'             => $this->post->getUid(),
                 'page'             => $wp_post_id,
                 'post_type'        => get_post_type($wp_post_id),
                 'featuredImage'    => $this->getThumbnailData($wp_post_id),

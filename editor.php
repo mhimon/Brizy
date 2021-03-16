@@ -332,6 +332,7 @@ class Brizy_Editor {
 			}
 
 			new Brizy_Editor_Forms_Api( $post );
+			new Brizy_Editor_Forms_Placeholders();
 
 			// for other apis
 			do_action( 'brizy_register_api_methods', $user, $post );

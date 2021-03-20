@@ -169,7 +169,7 @@ export const getItems = ({ property }) => ({ v, device, state, component }) => {
       options: [
         {
           id: "tabsColor",
-          type: "tabs",
+          type: "tabs-dev",
           tabs: [
             {
               id: "tabBorder",

@@ -12,10 +12,11 @@ import { makeRichTextColorPaletteCSS } from "visual/utils/color";
 import { addClass, removeClass } from "visual/utils/dom/classNames";
 import {
   currentStyleSelector,
-  unDeletedFontSelector,
-  currentRoleSelector
+  fontSelector,
+  extraFontStylesSelector,
+  currentRoleSelector,
+  unDeletedFontSelector
 } from "../selectors";
-import { fontSelector, extraFontStylesSelector } from "../selectors2";
 import {
   HYDRATE,
   ADD_BLOCK,
@@ -99,6 +100,7 @@ export default config => store => next => action => {
   if (action.type === UPDATE_UI && action.key === "deviceMode") {
     handleDeviceModeChange(callbacks);
   }
+
   if (action.type === UPDATE_UI && action.key === "showHiddenElements") {
     handleHiddenElementsChange(callbacks);
   }

@@ -7,10 +7,9 @@ import { t } from "visual/utils/i18n";
 import { defaultValueValue } from "visual/utils/onChange";
 
 import {
-  toolbarImageTags, 
+  toolbarImageTags,
   toolbarLinkAnchor,
-  toolbarImageLinkExternal,
-  toolbarImageSetter
+  toolbarImageLinkExternal
 } from "visual/utils/toolbar";
 
 import { NORMAL, HOVER } from "visual/utils/stateMode";
@@ -29,28 +28,22 @@ export const getMaxHeight = (cW, v) => {
 const imageDynamicContentChoices = getDynamicContentChoices("image");
 
 export default ({
-  desktopWrapperSizes,
   desktopContainerWidth,
-  tabletWrapperSizes,
   tabletContainerWidth,
-  mobileWrapperSizes,
   mobileContainerWidth,
   gallery
 }) => ({
   getItems: getItems({
     property: {
       desktop: {
-        wrapperSizes: desktopWrapperSizes,
         cW: desktopContainerWidth,
         gallery
       },
       tablet: {
-        wrapperSizes: tabletWrapperSizes,
         cW: tabletContainerWidth,
         gallery
       },
       mobile: {
-        wrapperSizes: mobileWrapperSizes,
         cW: mobileContainerWidth,
         gallery
       }
@@ -58,10 +51,10 @@ export default ({
   })
 });
 
-export const getItems = ({ property }) => ({ v, device, state, component }) => {
+export const getItems = ({ property }) => ({ v, device, component }) => {
   const inPopup = Boolean(component.props.meta.sectionPopup);
   const inPopup2 = Boolean(component.props.meta.sectionPopup2);
-  const { wrapperSizes, cW, gallery } = property[device];
+  const { cW, gallery } = property[device];
 
   const { inGallery = false, enableTags } = gallery || {};
 
@@ -95,24 +88,35 @@ export const getItems = ({ property }) => ({ v, device, state, component }) => {
               id: "tabImage",
               label: t("Image"),
               options: [
-                toolbarImageSetter({
-                  v,
-                  cW,
-                  device,
-                  state,
-                  wrapperSizes,
+                // Use population-dev option type instead of using the `population` config for imageUpload-dev,
+                // because the population id and imageUpload-dev id are different.
+                {
+                  id: "image",
+                  type: "population-dev",
                   disabled:
                     (isSVG(v.imageExtension) ||
                       isGIF(v.imageExtension) ||
                       v.imagePopulation) &&
                     device !== "desktop",
-                  onlyPointer: device !== "desktop",
-                  showPointer: !(
-                    isSVG(v.imageExtension) || isGIF(v.imageExtension)
-                  ),
-                  dynamicContent: imageDynamicContentChoices,
-                  gallery
-                }),
+                  config: {
+                    choices:
+                      device === "desktop" &&
+                      !gallery.inGallery &&
+                      imageDynamicContentChoices.length
+                        ? imageDynamicContentChoices
+                        : undefined
+                  },
+                  options: [
+                    {
+                      id: "",
+                      label: t("Image"),
+                      type: "imageUpload-dev",
+                      config: {
+                        edit: device === "desktop"
+                      }
+                    }
+                  ]
+                },
                 {
                   id: "zoom",
                   label: t("Zoom"),
@@ -169,7 +173,7 @@ export const getItems = ({ property }) => ({ v, device, state, component }) => {
       options: [
         {
           id: "tabsColor",
-          type: "tabs",
+          type: "tabs-dev",
           tabs: [
             {
               id: "tabBorder",

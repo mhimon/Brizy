@@ -7,7 +7,7 @@ import CustomCSS from "visual/component/CustomCSS";
 import Toolbar from "visual/component/Toolbar";
 import { imageUrl, imagePopulationUrl } from "visual/utils/image";
 import { getStore } from "visual/redux/store";
-import { blocksDataSelector } from "visual/redux/selectors";
+import { blocksDataSelector, deviceModeSelector } from "visual/redux/selectors";
 import { tabletSyncOnChange, mobileSyncOnChange } from "visual/utils/onChange";
 import defaultValue from "./defaultValue.json";
 import * as sidebarConfig from "./sidebar";
@@ -22,6 +22,8 @@ import { isSVG, isGIF } from "./utils";
 import ImageWrapper from "./Wrapper";
 import ImageContent from "./Image";
 import { IS_STORY } from "visual/utils/models";
+import * as ImagePatch from "./types/ImagePatch";
+import { elementModelToValue, patchOnImageChange } from "./imageChange";
 
 class Image extends EditorComponent {
   static get componentId() {
@@ -54,6 +56,42 @@ class Image extends EditorComponent {
 
   componentWillUnmount() {
     this.mounted = false;
+  }
+
+  patchValue(patch, meta) {
+    const image = this.handleImageChange(patch);
+    super.patchValue(
+      {
+        ...patch,
+        ...image
+      },
+      meta
+    );
+  }
+
+  handleImageChange(patch) {
+    const image = ImagePatch.fromElementModel(patch);
+
+    if (!image) {
+      return {};
+    }
+
+    const { v } = this.getValue2();
+    const value = elementModelToValue(v);
+    const wrapperSize = this.getWrapperSizes(v)[
+      deviceModeSelector(getStore().getState())
+    ];
+
+    return (
+      (value &&
+        patchOnImageChange(
+          this.state.containerWidth,
+          value,
+          wrapperSize,
+          image
+        )) ??
+      {}
+    );
   }
 
   handleResize = () => {
@@ -115,7 +153,7 @@ class Image extends EditorComponent {
           iH: Math.round(iH),
           oX: Math.round(oX),
           oY: Math.round(oY),
-          cW: Math.round(cW), 
+          cW: Math.round(cW),
           cH: Math.round(cH)
         };
 

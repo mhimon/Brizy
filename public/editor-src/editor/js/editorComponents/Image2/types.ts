@@ -77,3 +77,8 @@ export type ImageProps = {
 export type Styles = [string, string, string];
 
 export type Device = "desktop" | "tablet" | "mobile";
+
+export type Unit = "px" | "%";
+
+export const isUnit = (v: unknown): v is Unit =>
+  ["px", "%"].includes(v as Unit);

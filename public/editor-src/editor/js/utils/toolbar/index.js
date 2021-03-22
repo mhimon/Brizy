@@ -137,7 +137,6 @@ export { toolbarElementCloneableSpacing } from "./toolbarElementCloneable";
 export {
   toolbarImageLinkExternal,
   toolbarImageTags,
-  toolbarImageSetter,
   toolbarImageBorderRadius
 } from "./toolbarElementImage";
 
@@ -146,6 +145,7 @@ export {
   toolbarTypography2FontFamily,
   toolbarTypography2FontStyle,
   toolbarTypography2FontSize,
+  toolbarTypography2FontSizeSuffix,
   toolbarTypography2LineHeight,
   toolbarTypography2FontWeight,
   toolbarTypography2LetterSpacing

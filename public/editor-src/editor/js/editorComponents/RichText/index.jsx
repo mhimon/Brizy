@@ -14,8 +14,9 @@ import { getStore } from "visual/redux/store";
 import { blocksDataSelector } from "visual/redux/selectors";
 import { IS_GLOBAL_POPUP, IS_STORY } from "visual/utils/models";
 import Quill from "./Quill";
+import richTextTransform from "./utils/richTextTransform";
 import toolbarConfigFn from "./toolbar";
-import * as sidebarConfig from "./sidebar";
+import sidebarConfigFn from "./sidebar";
 import defaultValue from "./defaultValue.json";
 import { Wrapper } from "../tools/Wrapper";
 import BoxResizer from "visual/component/BoxResizer";
@@ -112,7 +113,7 @@ class RichText extends EditorComponent {
     this.setState({ isToolbarOpened: false });
   };
 
-  handleToolbarChange = values => {
+  handleChange = values => {
     // after Quill applies formatting it steals the focus to itself,
     // we try to fight back by remembering the previous focused element
     // and restoring it's focus after Quill steals it
@@ -248,13 +249,14 @@ class RichText extends EditorComponent {
     const inPopup = Boolean(meta.sectionPopup);
     const inPopup2 = Boolean(meta.sectionPopup2);
     const shortcutsTypes = ["copy", "paste", "delete"];
-    const toolbarConfig = toolbarConfigFn(
-      {
-        ...formats,
-        popups: this.tmpPopups || v.popups
-      },
-      this.handleToolbarChange
-    );
+
+    const newV = {
+      ...formats,
+      popups: this.tmpPopups || v.popups
+    };
+    const toolbarConfig = toolbarConfigFn(newV, this.handleChange);
+    const sidebarConfig = sidebarConfigFn(newV, this.handleChange);
+
     const showPopulationHelper =
       !getCurrentTooltip() && (prepopulation !== null || population);
 
@@ -344,7 +346,9 @@ class RichText extends EditorComponent {
             {...this.makeWrapperProps({
               className: this.getClassName(v, vs, vd),
               attributes: {
-                dangerouslySetInnerHTML: { __html: v.text }
+                dangerouslySetInnerHTML: {
+                  __html: richTextTransform(this.getId(), v.text)
+                }
               }
             })}
           />
